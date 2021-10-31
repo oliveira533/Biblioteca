@@ -25,7 +25,7 @@ namespace BibliotecaDesktop
         }
         private void fnCarrega()
         {
-            MySqlDataAdapter grdlivros = new MySqlDataAdapter("SELECT LIVCODIGO CODIGO, LIVNOME NOME FROM livro", frmPrincipal.oCon);
+            MySqlDataAdapter grdlivros = new MySqlDataAdapter("SELECT LIVCODIGO ,LIVNOME, (LIVQUANTIDADE - COUNT(EMPCODIGO)) QUANTIDADE FROM livro LEFT JOIN emprestimo ON LIVCODIGO = EMPLIVRO GROUP BY LIVNOME, LIVQUANTIDADE, LIVCODIGO", frmPrincipal.oCon);
             DataTable oAux = new DataTable();
             grdlivros.Fill(oAux);
             grdLivros.DataSource = oAux;
