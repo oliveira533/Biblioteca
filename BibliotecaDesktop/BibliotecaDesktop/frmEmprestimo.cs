@@ -20,25 +20,20 @@ namespace BibliotecaDesktop
 
         private void frmEmprestimo_Load(object sender, EventArgs e)
         {
+            //chama a função pra carregar os dados do banco de dados
             fnCarrega();
         }
         private void fnCarrega()
         {
-            MySqlDataAdapter oLivro = new MySqlDataAdapter("SELECT * FROM livro", frmPrincipal.oCon);
+            MySqlDataAdapter grdlivros = new MySqlDataAdapter("SELECT LIVCODIGO CODIGO, LIVNOME NOME FROM livro", frmPrincipal.oCon);
             DataTable oAux = new DataTable();
-            oLivro.Fill(oAux);
-            cbmLivro.DataSource = oAux;
+            grdlivros.Fill(oAux);
+            grdLivros.DataSource = oAux;
 
-            cbmLivro.DisplayMember = "LIVNOME";
-            cbmLivro.ValueMember = "LIVCODIGO";
-
-            MySqlDataAdapter oCliente = new MySqlDataAdapter("SELECT * FROM cliente", frmPrincipal.oCon);
+            MySqlDataAdapter oCliente = new MySqlDataAdapter("SELECT CLICODIGO CODIGO, CLINOME NOME FROM cliente", frmPrincipal.oCon);
             DataTable oAux2 = new DataTable();
             oCliente.Fill(oAux2);
-            cbmCliente.DataSource = oAux2;
-
-            cbmCliente.DisplayMember = "CLINOME";
-            cbmCliente.ValueMember = "CLICODIGO";
+            grdCliente.DataSource = oAux2;
         }
 
         private void btnEmprestar_Click(object sender, EventArgs e)
@@ -46,8 +41,8 @@ namespace BibliotecaDesktop
             string sEntrega = dtpEntrega.Value.Year.ToString() + "-" + dtpEntrega.Value.Month.ToString() + "-" + dtpEntrega.Value.Day.ToString();
 
             MySqlCommand oComando = new MySqlCommand("INSERT INTO emprestimo(EMPLIVRO, EMPCLIENTE, EMPDTRETIRADA, EMPDTVENCIMENTO) VALUES( @LIVRO, @CLIENTE, NOW(), @VENCIMENTO)", frmPrincipal.oCon);
-            oComando.Parameters.AddWithValue("@LIVRO", cbmLivro.SelectedValue);
-            oComando.Parameters.AddWithValue("@CLIENTE", cbmCliente.SelectedValue);
+            oComando.Parameters.AddWithValue("@LIVRO", grdLivros.SelectedRows[00].Cells[0].Value);
+            oComando.Parameters.AddWithValue("@CLIENTE", grdCliente.SelectedRows[00].Cells[0].Value);
             oComando.Parameters.AddWithValue("@VENCIMENTO", sEntrega);
             oComando.ExecuteNonQuery();
         }
