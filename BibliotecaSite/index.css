@@ -1,0 +1,32 @@
+*{
+    margin: 0;
+}
+form{
+    background: #616161;
+    border: solid 1px;
+    width: 16%;
+    height: 3vh;
+    border-radius: 4px;
+    margin: 6px;
+}
+input{
+    height: 100%;
+    border-radius: 5px;
+}
+button{
+    margin: 0;
+    padding: 0;
+    padding-right: 2px;
+    background: #616161;
+    border: 0;
+    cursor: pointer;
+}
+header{
+    width: 100%;
+    background: #4104a3;
+    height: 5vh;
+    position: absolute;
+}
+header img{
+    width: 40px;
+}
